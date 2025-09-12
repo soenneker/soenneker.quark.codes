@@ -1,0 +1,77 @@
+@using Soenneker.Extensions.String
+@inherits Soenneker.Quark.Components.Element
+
+<code @attributes="BuildAttributes()">
+    @ChildContent
+</code>
+
+@code {
+    [Parameter]
+    public string? Language { get; set; }
+
+    [Parameter]
+    public bool Inline { get; set; } = false;
+
+    [Parameter]
+    public bool Highlight { get; set; } = true;
+
+    [Parameter]
+    public string? Theme { get; set; } = "default";
+
+    protected override Dictionary<string, object> BuildAttributes()
+    {
+        Dictionary<string, object> attributes = base.BuildAttributes();
+
+        // Add default Bootstrap classes for code display
+        if (!Class.HasContent())
+        {
+            if (Inline)
+            {
+                attributes["class"] = AppendToClass(attributes.GetValueOrDefault("class")
+                    ?.ToString(), "text-bg-light px-1 py-0 rounded");
+            }
+            else
+            {
+                attributes["class"] = AppendToClass(attributes.GetValueOrDefault("class")
+                    ?.ToString(), "d-block text-bg-light p-3 rounded");
+            }
+        }
+        else
+        {
+            // If class is specified, still add basic styling if not already present
+            string currentClass = attributes.GetValueOrDefault("class")
+                ?.ToString() ?? "";
+
+            if (Inline && !currentClass.Contains("text-bg-light"))
+            {
+                currentClass = AppendToClass(currentClass, "text-bg-light px-1 py-0 rounded");
+            }
+            else if (!Inline && !currentClass.Contains("d-block"))
+            {
+                currentClass = AppendToClass(currentClass, "d-block text-bg-light p-3 rounded");
+            }
+
+            attributes["class"] = currentClass;
+        }
+
+        // Add language attribute for syntax highlighting
+        if (Language.HasContent())
+        {
+            attributes["data-language"] = Language;
+        }
+
+        // Add theme attribute
+        if (Theme.HasContent() && Theme != "default")
+        {
+            attributes["data-theme"] = Theme;
+        }
+
+        // Add highlight attribute
+        if (Highlight)
+        {
+            attributes["data-highlight"] = "true";
+        }
+
+        return attributes;
+    }
+}
