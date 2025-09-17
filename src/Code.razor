@@ -1,11 +1,12 @@
 @using Soenneker.Extensions.String
 @inherits Soenneker.Quark.Components.Element
 
-<code @attributes="BuildAttributes()">
+<code @attributes="BuildAttributes()" >
     @ChildContent
 </code>
 
 @code {
+
     [Parameter]
     public string? Language { get; set; }
 
@@ -27,13 +28,11 @@
         {
             if (Inline)
             {
-                attributes["class"] = AppendToClass(attributes.GetValueOrDefault("class")
-                    ?.ToString(), "text-bg-light px-1 py-0 rounded");
+                AppendToClassAttr(attributes, "text-bg-light px-1 py-0 rounded");
             }
             else
             {
-                attributes["class"] = AppendToClass(attributes.GetValueOrDefault("class")
-                    ?.ToString(), "d-block text-bg-light p-3 rounded");
+                AppendToClassAttr(attributes, "d-block text-bg-light p-3 rounded");
             }
         }
         else
@@ -44,14 +43,12 @@
 
             if (Inline && !currentClass.Contains("text-bg-light"))
             {
-                currentClass = AppendToClass(currentClass, "text-bg-light px-1 py-0 rounded");
+                AppendToClassAttr(attributes, "text-bg-light px-1 py-0 rounded");
             }
             else if (!Inline && !currentClass.Contains("d-block"))
             {
-                currentClass = AppendToClass(currentClass, "d-block text-bg-light p-3 rounded");
+                AppendToClassAttr(attributes, "d-block text-bg-light p-3 rounded");
             }
-
-            attributes["class"] = currentClass;
         }
 
         // Add language attribute for syntax highlighting
@@ -74,4 +71,5 @@
 
         return attributes;
     }
+
 }

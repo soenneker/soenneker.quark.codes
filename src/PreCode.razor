@@ -20,9 +20,6 @@
     [Parameter]
     public bool Scrollable { get; set; } = true;
 
-    [Parameter]
-    public int? MaxHeight { get; set; }
-
     protected virtual Dictionary<string, object> BuildPreAttributes()
     {
         var attributes = new Dictionary<string, object>();
@@ -30,7 +27,7 @@
         // Add default Bootstrap classes for pre element
         if (!Class.HasContent())
         {
-            string baseClasses = "text-bg-light p-3 rounded";
+            var baseClasses = "text-bg-light p-3 rounded";
             
             if (Scrollable)
             {
@@ -59,7 +56,7 @@
         // Add custom attributes
         if (Attributes != null)
         {
-            foreach (var attribute in Attributes)
+            foreach (KeyValuePair<string, object> attribute in Attributes)
             {
                 if (attribute.Key != "class" && attribute.Key != "style")
                 {
