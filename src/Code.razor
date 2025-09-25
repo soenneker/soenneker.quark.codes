@@ -21,55 +21,55 @@
 
     protected override Dictionary<string, object> BuildAttributes()
     {
-        Dictionary<string, object> attributes = base.BuildAttributes();
+        base.BuildAttributes();
 
         // Add default Bootstrap classes for code display
         if (!Class.HasContent())
         {
             if (Inline)
             {
-                AppendToClassAttr(attributes, "text-bg-light px-1 py-0 rounded");
+                AppendToClassAttr(Attributes, "text-bg-light px-1 py-0 rounded");
             }
             else
             {
-                AppendToClassAttr(attributes, "d-block text-bg-light p-3 rounded");
+                AppendToClassAttr(Attributes, "d-block text-bg-light p-3 rounded");
             }
         }
         else
         {
             // If class is specified, still add basic styling if not already present
-            string currentClass = attributes.GetValueOrDefault("class")
+            string currentClass = Attributes.GetValueOrDefault("class")
                 ?.ToString() ?? "";
 
             if (Inline && !currentClass.Contains("text-bg-light"))
             {
-                AppendToClassAttr(attributes, "text-bg-light px-1 py-0 rounded");
+                AppendToClassAttr(Attributes, "text-bg-light px-1 py-0 rounded");
             }
             else if (!Inline && !currentClass.Contains("d-block"))
             {
-                AppendToClassAttr(attributes, "d-block text-bg-light p-3 rounded");
+                AppendToClassAttr(Attributes, "d-block text-bg-light p-3 rounded");
             }
         }
 
         // Add language attribute for syntax highlighting
         if (Language.HasContent())
         {
-            attributes["data-language"] = Language;
+            Attributes["data-language"] = Language;
         }
 
         // Add theme attribute
         if (Theme.HasContent() && Theme != "default")
         {
-            attributes["data-theme"] = Theme;
+            Attributes["data-theme"] = Theme;
         }
 
         // Add highlight attribute
         if (Highlight)
         {
-            attributes["data-highlight"] = "true";
+            Attributes["data-highlight"] = "true";
         }
 
-        return attributes;
+        return Attributes;
     }
 
 }
