@@ -6,6 +6,7 @@
 </code>
 
 @code {
+	public override string? Name { get; set; } = "Code";
 
     [Parameter]
     public string? Language { get; set; }
@@ -21,7 +22,7 @@
 
     protected override Dictionary<string, object> BuildAttributes()
     {
-        base.BuildAttributes();
+        Attributes = base.BuildAttributes();
 
         // Add default Bootstrap classes for code display
         if (!Class.HasContent())
